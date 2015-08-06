@@ -84,6 +84,7 @@ public class Movies {
 
         this.sortBy = sortBy;
         url = "http://api.themoviedb.org/3/discover/movie?sort_by=" + sort + "&api_key="+apiKey;
+        clear();
     }
 
     public int getCacheCount()

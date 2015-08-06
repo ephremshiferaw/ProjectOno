@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.libraries.core.Movie;
 import com.squareup.picasso.Callback;
@@ -79,12 +78,6 @@ public class MoviesAdapter extends BaseAdapter {
                         }
                     }
                 });
-
-            // set value into textview
-            TextView textView = (TextView) convertView.findViewById(R.id.grid_item_label);
-            textView.setText(movie.getTitle());
-
-            // });
             return convertView;
         }
 

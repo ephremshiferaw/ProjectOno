@@ -1,6 +1,9 @@
 package com.l2ee.projectono;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -96,12 +99,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private ProgressBar spinner;
     private ProgressBar bottomSpinner;
     boolean refreshing = false;
+    MenuItem menuSortPopular,menuSortRating;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menuSortRating = menu.findItem(R.id.menuSortRating);
+        menuSortPopular = menu.findItem(R.id.menuSortPopular);
+        resetIcons();
         return true;
+    }
+
+    void resetIcons()
+    {
+        menuSortPopular.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        menuSortRating.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     }
 
     @Override
@@ -112,11 +125,60 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+
+        if(id == R.id.menuSortPopular || id == R.id.menuSortRating) {
+
+            int v = getSortorder(this);
+            int newSort = 0;
+            resetIcons();
+
+
+
+            if (id == R.id.menuSortPopular) {
+
+                if(v==Movies.SortOptions.POPULARITY_DESC.ordinal() ) {
+                    newSort = Movies.SortOptions.POPULARITY_ASC.ordinal();
+                    item.setIcon(R.drawable.ic_arrow_down);
+                }
+                else {
+                    newSort = Movies.SortOptions.POPULARITY_DESC.ordinal();
+                    item.setIcon(R.drawable.ic_arrow_up);
+                }
+
+            } else if (id == R.id.menuSortRating) {
+                if(v!=Movies.SortOptions.VOTE_AVERAGE_DESC.ordinal() ) {
+                    newSort = Movies.SortOptions.VOTE_AVERAGE_DESC.ordinal();
+                    item.setIcon(R.drawable.ic_arrow_down);
+                }
+                else {
+                    newSort = Movies.SortOptions.VOTE_AVERAGE_ASC.ordinal();
+                    item.setIcon(R.drawable.ic_arrow_up);
+                }
+            }
+
+            saveSortorder(this, newSort);
+            moviesManager.setSortBy(Movies.SortOptions.values()[newSort]);
+            aGetMoviesAsyncTask = new GetMoviesAsyncTask();
+            aGetMoviesAsyncTask.execute();
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private static void saveSortorder(Activity activity,int order)
+    {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("SORT_ORDER", order);
+        editor.commit();
+    }
+
+    public static int getSortorder(Activity activity)
+    {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getInt("SORT_ORDER",0) ;
     }
 
     Activity activity;
@@ -128,25 +190,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         /** The system calls this to perform work in a worker thread and
          * delivers it the parameters given to AsyncTask.execute() */
         protected ArrayList<Movie> doInBackground(String... page) {
-
-
             activity.runOnUiThread(new Runnable() {
                 public void run() {
 
                     bottomSpinner.setVisibility(View.VISIBLE);
-
-
                 }
             });
-
             ArrayList<Movie> t = null;
             try {
                 t = moviesManager.getMovies();
-                /*try {
-                    Thread.sleep(5000);                 //1000 milliseconds is one second.
-                } catch(InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -161,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             activity.runOnUiThread(new Runnable() {
                 public void run() {
                     mAdapter.notifyDataSetChanged();
-
                     bottomSpinner.setVisibility(View.GONE);
                     swipeLayout.setRefreshing(false);
                 }

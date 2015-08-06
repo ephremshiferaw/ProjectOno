@@ -12,8 +12,8 @@
         android:id="@+id/moviesGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
+        android:verticalSpacing="@dimen/base_grid_space"
+        android:horizontalSpacing="@dimen/base_grid_space"
         android:layout_centerHorizontal="true"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"/>
@@ -24,7 +24,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/progressbar_height"
         android:id="@+id/bottomProgressBar"
         />
 </RelativeLayout>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/frags"
+    android:background="@android:color/white">
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/poster_title_height"
+    android:id="@+id/movieTitle"
+    android:text="@string/title_activity_main"
+    android:theme="@style/BigPosterTitleStyle"
+
+    />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/default_padding">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <FrameLayout
+            android:layout_width="@dimen/singlePoster_minWidth"
+            android:layout_height="@dimen/singlePoster_minHeight"
+            android:paddingLeft="@dimen/default_padding"
+            android:paddingRight="@dimen/default_padding"
+            android:layout_marginRight="@dimen/default_padding"
+            android:id="@+id/posterFrame">
+            <ProgressBar
+                android:id="@+id/itemProgressBar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/progressBar_margin"
+                android:layout_marginBottom="@dimen/progressBar_margin"/>
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:contentDescription="movie image"
+                />
+
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/default_padding"
+            android:paddingLeft="@dimen/default_padding">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/releaseYear"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold|italic"
+                android:paddingTop="@dimen/default_padding"
+                android:id="@+id/duration" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:paddingTop="@dimen/default_padding"
+                android:textColor="@android:color/black"
+                android:id="@+id/rating" />
+
+            <Button
+                android:layout_width="@dimen/favorite_button_width"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/default_padding"
+                android:text="@string/Favorite"
+                android:id="@+id/button" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/synopsys" />
+    <View
+        android:layout_height="@dimen/thinLine"
+        android:layout_width="match_parent"
+        android:background="@android:color/black"
+        android:paddingBottom="@dimen/default_padding"
+        android:paddingTop="@dimen/default_padding"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/trailers"
+        android:textColor="@android:color/darker_gray"
+
+       />
+    </LinearLayout>
+
+</LinearLayout>

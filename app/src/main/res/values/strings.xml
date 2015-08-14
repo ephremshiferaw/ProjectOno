@@ -4,4 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">Movies</string>
     <string name="api_key">1fb7b82c82ca5824c4fe9e3a62602de0</string>
+    <string name="trailers">Trailers:</string>
+    <string name="Favorite">MARK AS FAVORITE</string>
 </resources>

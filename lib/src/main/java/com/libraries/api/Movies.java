@@ -31,6 +31,7 @@ public class Movies {
     private static final String TAG_BACKDROP_PATH = "backdrop_path";
     private static final String TAG_ID = "id";
     private static final String TAG_RESULTS = "results";
+    private static final String TAG_RELEASE_DATE = "release_date";
 
 
     ArrayList<Movie> movieList;
@@ -133,6 +134,11 @@ public class Movies {
                     m.setId(c.getInt(TAG_ID));
                     m.setTitle(c.getString(TAG_TITLE));
                     m.setPosterPath(TAG_BASE_POSTER + c.getString(TAG_POSTER_PATH));
+                    m.setOverview(c.getString(TAG_OVERVIEW));
+                    m.setVoteAverage(c.getDouble(TAG_VOTE_AVERAGE));
+                    m.setVoteCount(c.getInt(TAG_VOTE_COUNT));
+                    m.setPopularity(c.getDouble(TAG_POPULARITY));
+                    m.setReleaseDate(c.getString(TAG_RELEASE_DATE));
 
                     if (!movieList.contains(m))
                         movieList.add(m);

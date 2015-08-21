@@ -16,28 +16,14 @@ import com.libraries.core.Movie;
 public class MainActivity extends AppCompatActivity implements MoviesFragment.OnMovieSelectedListener {
 
 
-   // SwipeRefreshLayout swipeLayout;
-/*
-    @Override
-    implements SwipeRefreshLayout.OnRefreshListener
-    public void onRefresh() {
-
-        moviesManager.clear();
-        mAdapter.notifyDataSetChanged();
-        refreshing = true;
-        aGetMoviesAsyncTask = new GetMoviesAsyncTask();
-        aGetMoviesAsyncTask.execute();
-
-           }*/
-
     MoviesFragment firstFragment;
     MovieFragment secondFragment;
+    MenuItem menuSortPopular,menuSortRating,menusettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.movies_container) != null) {
@@ -48,40 +34,45 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
             // Add the fragment to the 'fragment_container' FrameLayout
            getSupportFragmentManager().beginTransaction()
                    .add(R.id.movies_container, firstFragment)
-                   //.addToBackStack("firstFragment")
                    .commit();
         }
+    }
 
-        //for big screens
-
+    @Override
+    public void onBackPressed() {
+        menusettings.setVisible(true);
+        super.onBackPressed();
     }
 
     @Override
     public void onMovieSelected(Movie movie) {
-        if (findViewById(R.id.movies_container) != null) {
-
-            secondFragment = new MovieFragment();
-            secondFragment.setCurrentMovie(movie);
+        secondFragment = new MovieFragment();
+        secondFragment.setCurrentMovie(movie);
+        if (findViewById(R.id.movie_container) == null) {
+            menusettings.setVisible(false);
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.movies_container, secondFragment)
                     .addToBackStack("secondFragment")
                     .commit();
         }
+        else  {
+            //for big screens
+            // Add the fragment to the 'fragment_container' FrameLayout but not to backStack
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.movie_container, secondFragment)
+                    .commit();
+        }
     }
-
-
-
-    boolean refreshing = false;
-    MenuItem menuSortPopular,menuSortRating;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menusettings = menu.findItem(R.id.menuSettings);
         menuSortRating = menu.findItem(R.id.menuSortRating);
         menuSortPopular = menu.findItem(R.id.menuSortPopular);
-        resetIcons();
+        adjustIcons( getSortOrder(this));
         return true;
     }
 
@@ -91,104 +82,64 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
         menuSortRating.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     }
 
+    void adjustIcons(int order)
+    {
+        resetIcons();
+        if(order== Movies.SortOptions.POPULARITY_DESC.ordinal() ) {
+            menuSortPopular.setIcon(R.drawable.ic_arrow_down);
+        }
+        else if(order== Movies.SortOptions.POPULARITY_ASC.ordinal() )
+        {
+            menuSortPopular.setIcon(R.drawable.ic_arrow_up);
+        }
+        else if(order==Movies.SortOptions.VOTE_AVERAGE_DESC.ordinal() ) {
+            menuSortRating.setIcon(R.drawable.ic_arrow_down);
+        }
+        else {
+            menuSortRating.setIcon(R.drawable.ic_arrow_up);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
         if(id == R.id.menuSortPopular || id == R.id.menuSortRating) {
-
-            int v = getSortorder(this);
+            int v = getSortOrder(this);
             int newSort = 0;
-            resetIcons();
-
             if (id == R.id.menuSortPopular) {
-
                 if(v== Movies.SortOptions.POPULARITY_DESC.ordinal() ) {
                     newSort = Movies.SortOptions.POPULARITY_ASC.ordinal();
-                    menuSortRating.setIcon(R.drawable.ic_arrow_down);
                 }
                 else {
                     newSort = Movies.SortOptions.POPULARITY_DESC.ordinal();
-                    menuSortRating.setIcon(R.drawable.ic_arrow_up);
                 }
 
             } else if (id == R.id.menuSortRating) {
                 if(v!=Movies.SortOptions.VOTE_AVERAGE_DESC.ordinal() ) {
                     newSort = Movies.SortOptions.VOTE_AVERAGE_DESC.ordinal();
-                    menuSortRating.setIcon(R.drawable.ic_arrow_down);
                 }
                 else {
                     newSort = Movies.SortOptions.VOTE_AVERAGE_ASC.ordinal();
-                    menuSortRating.setIcon(R.drawable.ic_arrow_up);
                 }
             }
-
-            saveSortorder(this, newSort);
+            adjustIcons(newSort);
+            saveSortOrder(this, newSort);
             firstFragment.Refresh(Movies.SortOptions.values()[newSort]);
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
 
-    private static void saveSortorder(Activity activity,int order)
+    private static void saveSortOrder(Activity activity, int order)
     {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("SORT_ORDER", order);
         editor.commit();
     }
-
-    public static int getSortorder(Activity activity)
-    {
+    public static int getSortOrder(Activity activity) {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
-        return sharedPref.getInt("SORT_ORDER",0) ;
+        return sharedPref.getInt("SORT_ORDER", 0);
     }
-
-/*  Activity activity;
-    GridView gridView;
-    Movies moviesManager;
-    private MoviesAdapter mAdapter;
-
-
-    /*
-    private class GetMoviesAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {
-
-        protected ArrayList<Movie> doInBackground(String... page) {
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-
-                    bottomSpinner.setVisibility(View.VISIBLE);
-                }
-            });
-            ArrayList<Movie> t = null;
-            try {
-                t = moviesManager.getMovies();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return t;
-        }
-
-        protected void onPostExecute(ArrayList<Movie> result) {
-            mAdapter.setMovieList(result);
-
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-                    mAdapter.notifyDataSetChanged();
-                    bottomSpinner.setVisibility(View.GONE);
-                    swipeLayout.setRefreshing(false);
-                }
-            });
-            refreshing = false;
-
-        }
-
-    }*/
 }

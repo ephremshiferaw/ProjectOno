@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frags"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/movieTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/poster_title_height"
+            android:text="@string/title_activity_main"
+            android:theme="@style/BigPosterTitleStyle"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/default_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <FrameLayout
+                    android:id="@+id/posterFrame"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/default_padding">
+
+                    <ProgressBar
+                        android:id="@+id/itemProgressBar"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/progressBar_margin"
+                        android:layout_marginTop="@dimen/progressBar_margin"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/item_image"
+                        android:layout_width="@dimen/poster_minWidth"
+                        android:layout_height="@dimen/poster_minHeight"
+
+                        android:contentDescription="movie image"
+                        android:scaleType="centerCrop" />
+
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/default_padding"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/default_padding">
+
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="1">
+
+                        <TableRow>
+
+                            <TextView
+                                style="@style/SmallTitleStyle"
+                                android:text="@string/ReleaseDateTitle" />
+
+                            <TextView
+                                android:id="@+id/releaseYear"
+                                style="@style/SmallValueStyle"
+                                android:text="@string/ReleaseDateTitle" />
+                        </TableRow>
+
+
+                        <TableRow android:layout_marginTop="@dimen/movie_table_margin_large">
+
+                            <TextView
+                                style="@style/SmallTitleStyle"
+                                android:text="@string/VoteTitle" />
+
+                            <TextView
+                                android:id="@+id/vote"
+                                style="@style/SmallValueStyle"
+                                android:text="@string/VoteTitle" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="@dimen/movie_table_margin_small">
+
+                            <TextView
+                                style="@style/SmallTitleStyle"
+                                android:text="@string/VoteCountTitle" />
+
+                            <TextView
+                                android:id="@+id/voteCount"
+                                style="@style/SmallValueStyle"
+                                android:text="@string/VoteCountTitle" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="@dimen/movie_table_margin_small">
+
+                            <TextView
+                                style="@style/SmallTitleStyle"
+                                android:text="@string/RatingTitle" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    style="?android:attr/ratingBarStyleSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:isIndicator="true"
+                                    android:numStars="@integer/number_of_stars"
+                                    android:stepSize="0.01" />
+                            </LinearLayout>
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/overview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/synopsys"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textColor="@color/material_blue_grey_800" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/thinLine"
+                android:background="@android:color/black"
+                android:paddingBottom="@dimen/default_padding"
+                android:paddingTop="@dimen/default_padding" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+

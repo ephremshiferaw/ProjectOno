@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ProjectOno</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">Movies</string>
+    <string name="trailers">Trailers:</string>
+    <string name="Favorite">MARK AS FAVORITE</string>
+    <string name="synopsys">synopsys</string>
+    <string name="ReleaseDateTitle">Release Date</string>
+    <string name="DurationTitle">Duration</string>
+    <string name="VoteTitle">Vote (avg)</string>
+    <string name="VoteCountTitle">No. Votes</string>
+    <string name="RatingTitle">Popularity</string>
+    <string name="api_key">key</string>
+</resources>

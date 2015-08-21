@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.l2ee.projectono.MainActivity">
+
+    <item
+        android:title="@string/action_settings"
+        android:id="@+id/menuSettings"
+        android:icon="@drawable/ic_content_sort"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/menuSortPopular"
+                android:title="Sort by popularity"
+                android:icon="@drawable/ic_arrow_up"
+
+                />
+            <item
+                android:id="@+id/menuSortRating"
+                android:title="Sort by ratings"
+              />
+        </menu>
+    </item>
+</menu>

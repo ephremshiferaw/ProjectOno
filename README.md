@@ -23,10 +23,5 @@ To fetch popular movies, you will use the API from themoviedb.org.
 If you don’t already have an account, you will need to create one in order to request an API Key.
   https://www.themoviedb.org/account/signup
 
-update string values resources file
+update string values resources file string name="api_key" with YOUR KEY
 
--<resources>
-
-<string name="api_key">YOUR KEY</string>
-
-</resources>

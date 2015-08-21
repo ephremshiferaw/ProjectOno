@@ -4,6 +4,7 @@
 
     <item
         android:title="@string/action_settings"
+        android:id="@+id/menuSettings"
         android:icon="@drawable/ic_content_sort"
         app:showAsAction="ifRoom">
         <menu>

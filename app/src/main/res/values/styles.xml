@@ -6,14 +6,25 @@
     </style>
 
     <style parent="AppTheme" name="BigPosterTitleStyle">
-        <item name="android:paddingLeft">@dimen/poster_title_padding</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/poster_title_height</item>
-        <item name="android:background">#ff029789</item>
-        <item name="android:textSize">@dimen/poster_title_fontSize</item>
-        <item name="android:textColor">@android:color/white</item>
+    <item name="android:paddingLeft">@dimen/poster_title_padding</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:background">#ff029789</item>
+    <item name="android:textSize">@dimen/poster_title_fontSize</item>
+    <item name="android:textColor">@android:color/white</item>
 
+</style>
+
+    <style parent="AppTheme" name="SmallTitleStyle">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:paddingRight">3dip</item>
+    </style>
+
+    <style parent="AppTheme" name="SmallValueStyle">
+        <item name="android:textSize">15sp</item>
+       <item name="android:textColor">#ff029789</item>
+        <item name="android:paddingRight">3dip</item>
     </style>
 
 </resources>

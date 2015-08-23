@@ -19,18 +19,34 @@ import com.libraries.core.Movie;
 import java.util.ArrayList;
 
 public class MoviesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    private OnMovieSelectedListener mListener;
+    private Activity activity;
+    private SwipeRefreshLayout swipeLayout;
+    private GridView gridView;
+    private Movies moviesManager;
+    private MoviesAdapter mAdapter;
+    private ProgressBar spinner;
+    private ProgressBar bottomSpinner;
+    private GetMoviesAsyncTask aGetMoviesAsyncTask;
+    boolean refreshing = false;
+    private View moviesView;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        moviesView = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        View v = inflater.inflate(R.layout.fragment_movies, container, false);
-        initialize(v);
-        return v;
+        return moviesView;
     }
-
-    private OnMovieSelectedListener mListener;
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //Save to bundle
+        outState.putSerializable("MOVIES", mAdapter.movieList);
+        outState.putSerializable("MOVIES_MANAGER", moviesManager);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -70,6 +86,47 @@ public class MoviesFragment extends Fragment implements SwipeRefreshLayout.OnRef
     }
 
     @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        moviesManager = getMoviesManager(savedInstanceState);
+        mAdapter = getMoviesAdapter(savedInstanceState);
+        setupView(moviesView);
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+
+    //Get MoviesManager from memory if it exists, from savedInstanceState if it was saved or return new
+    private Movies getMoviesManager(Bundle savedInstanceState) {
+        activity = this.getActivity();
+        if (moviesManager != null)
+            return moviesManager;
+        if (savedInstanceState != null) {
+            Movies ret = (Movies) savedInstanceState.getSerializable("MOVIES_MANAGER");
+            if(ret!=null) return ret;
+        }
+        //if all the above conditions fail then reinitialize the manager
+        return new Movies(getResources().getString(R.string.api_key), Movies.SortOptions.POPULARITY_DESC);
+    }
+
+
+    //Init Adapter, set movies if found in savedInstanceState otherwise recreate
+    private MoviesAdapter getMoviesAdapter(Bundle savedInstanceState) {
+        MoviesAdapter ret;
+        if (mAdapter != null)
+            ret = mAdapter;
+        else
+            ret = new MoviesAdapter(activity);
+
+        if (savedInstanceState != null) {
+            ArrayList<Movie> movies = (ArrayList<Movie>) savedInstanceState.getSerializable("MOVIES");
+            ret.setMovieList(movies);
+        } else {
+            aGetMoviesAsyncTask = new GetMoviesAsyncTask();
+            aGetMoviesAsyncTask.execute();
+        }
+        return ret;
+    }
+
+    @Override
     public void onRefresh() {
         moviesManager.clear();
         mAdapter.notifyDataSetChanged();
@@ -78,26 +135,10 @@ public class MoviesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         aGetMoviesAsyncTask.execute();
     }
 
-    Activity activity;
-    SwipeRefreshLayout swipeLayout;
-    GridView gridView;
-    Movies moviesManager;
-    private MoviesAdapter mAdapter;
-    private ProgressBar spinner;
-    private ProgressBar bottomSpinner;
-    GetMoviesAsyncTask aGetMoviesAsyncTask;
-    boolean refreshing = false;
 
-    void initialize(View container) {
-        activity = this.getActivity();
-        mAdapter = new MoviesAdapter(activity);
-        String api_key = getResources().getString(R.string.api_key);
-        if (moviesManager == null)
-            moviesManager = new Movies(api_key, Movies.SortOptions.POPULARITY_DESC);
-
+    void setupView(View container) {
         swipeLayout = (SwipeRefreshLayout) container.findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(this);
-
         gridView = (GridView) container.findViewById(R.id.moviesGridView);
         gridView.setAdapter(mAdapter);
         bottomSpinner = (ProgressBar) container.findViewById(R.id.bottomProgressBar);
@@ -127,14 +168,14 @@ public class MoviesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(mListener!=null)
+                if (mListener != null)
                     mListener.onMovieSelected((Movie) mAdapter.getItem(position));
             }
         });
         gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(mListener!=null)
+                if (mListener != null)
                     mListener.onMovieSelected((Movie) mAdapter.getItem(position));
             }
 
@@ -143,8 +184,8 @@ public class MoviesFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
             }
         });
-        aGetMoviesAsyncTask = new GetMoviesAsyncTask();
-        aGetMoviesAsyncTask.execute();
+
+
     }
 
     private class GetMoviesAsyncTask extends AsyncTask<String, Void, ArrayList<Movie>> {

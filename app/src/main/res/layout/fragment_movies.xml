@@ -20,7 +20,7 @@
 
         <ProgressBar
             style="@android:style/Widget.Holo.Light.ProgressBar.Small"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"

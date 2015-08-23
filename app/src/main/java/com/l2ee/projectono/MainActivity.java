@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,9 +17,9 @@ import com.libraries.core.Movie;
 public class MainActivity extends AppCompatActivity implements MoviesFragment.OnMovieSelectedListener {
 
 
-    MoviesFragment firstFragment;
-    MovieFragment secondFragment;
-    MenuItem menuSortPopular,menuSortRating,menusettings;
+   private MoviesFragment firstFragment;
+   private MovieFragment secondFragment;
+    private MenuItem menuSortPopular,menuSortRating, menuSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +41,22 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
 
     @Override
     public void onBackPressed() {
-        menusettings.setVisible(true);
+        menuSettings.setVisible(true);
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+
+        //this is to setup the fragment local variables
+        if(firstFragment==null) {
+            Fragment f1 = this.getSupportFragmentManager().findFragmentById(R.id.movies_container);
+            if (f1.getClass().equals(MoviesFragment.class)) {
+                firstFragment = (MoviesFragment) f1;
+            }
+        }
     }
 
     @Override
@@ -49,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
         secondFragment = new MovieFragment();
         secondFragment.setCurrentMovie(movie);
         if (findViewById(R.id.movie_container) == null) {
-            menusettings.setVisible(false);
+            menuSettings.setVisible(false);
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.movies_container, secondFragment)
@@ -69,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        menusettings = menu.findItem(R.id.menuSettings);
+        menuSettings = menu.findItem(R.id.menuSettings);
         menuSortRating = menu.findItem(R.id.menuSortRating);
         menuSortPopular = menu.findItem(R.id.menuSortPopular);
         adjustIcons( getSortOrder(this));

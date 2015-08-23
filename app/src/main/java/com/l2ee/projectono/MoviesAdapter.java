@@ -1,10 +1,6 @@
 package com.l2ee.projectono;
 
 
-
-
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +20,7 @@ import java.util.ArrayList;
  */
 public class MoviesAdapter extends BaseAdapter {
 
-    ArrayList<Movie> movieList;
+     ArrayList<Movie> movieList;
     Context mContext;
     LayoutInflater inflater;
 
@@ -34,12 +30,16 @@ public class MoviesAdapter extends BaseAdapter {
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+
+
     public void setMovieList(ArrayList<Movie> movieList) {
-        this.movieList = movieList;
+        if (movieList != null)
+            this.movieList = movieList;
     }
 
-
-
+    public ArrayList<Movie>  getMovieList() {
+       return  movieList;
+    }
 
     @Override
     public int getCount() {
@@ -104,4 +104,5 @@ public class MoviesAdapter extends BaseAdapter {
             }
         }
 }
+
 

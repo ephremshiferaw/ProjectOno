@@ -3,12 +3,14 @@ package com.libraries.core;
 /**
  * Created by ephrem.shiferaw on 7/10/2015.
  */
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Movie {
+public class Movie implements Serializable {
 
 
     private Boolean adult;

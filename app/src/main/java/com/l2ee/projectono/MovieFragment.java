@@ -27,6 +27,18 @@ public class MovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         movieView = inflater.inflate(R.layout.fragment_movie, container, false);
+
+
+
+        return movieView;
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+
+        if (savedInstanceState != null && currentMovie==null) {
+            currentMovie = (Movie)savedInstanceState.getSerializable("MOVIE");
+        }
         if (currentMovie != null) {
             TextView movieTitle = (TextView) movieView.findViewById(R.id.movieTitle);
 
@@ -66,13 +78,21 @@ public class MovieFragment extends Fragment {
                 }
             });
         }
-        return movieView;
+        super.onViewStateRestored(savedInstanceState);
     }
 
     void setCurrentMovie(Movie movie) {
         currentMovie = movie;
 
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //Save to bundle
+        outState.putSerializable("MOVIE", currentMovie);
+        super.onSaveInstanceState(outState);
+    }
+
 
 
     private class ImageLoadedCallback implements Callback {

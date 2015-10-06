@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class MoviesAdapter extends BaseAdapter {
 
-     ArrayList<Movie> movieList;
+    ArrayList<Movie> movieList;
     Context mContext;
     LayoutInflater inflater;
 
@@ -104,5 +104,4 @@ public class MoviesAdapter extends BaseAdapter {
             }
         }
 }
-
 

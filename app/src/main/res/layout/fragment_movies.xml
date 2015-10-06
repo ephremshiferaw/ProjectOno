@@ -15,6 +15,7 @@
             android:verticalSpacing="@dimen/base_grid_space"
             android:horizontalSpacing="@dimen/base_grid_space"
             android:layout_centerHorizontal="true"
+
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth"/>
 
@@ -25,6 +26,7 @@
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="@dimen/progressbar_height"
+            android:background="@drawable/abc_tab_indicator_material"
             android:id="@+id/bottomProgressBar"
             />
     </RelativeLayout>

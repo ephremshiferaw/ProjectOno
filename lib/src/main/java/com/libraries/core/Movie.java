@@ -16,7 +16,7 @@ public class Movie implements Serializable {
     private Boolean adult;
     private String backdropPath;
     private List<Integer> genreIds = new ArrayList<Integer>();
-    private Integer id;
+    private int id;
     private String originalLanguage;
     private String originalTitle;
     private String overview;
@@ -91,7 +91,7 @@ public class Movie implements Serializable {
      * The id
      */
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -101,7 +101,7 @@ public class Movie implements Serializable {
      * The id
      */
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -314,6 +314,40 @@ public class Movie implements Serializable {
         this.additionalProperties.put(name, value);
     }
 
+    private ArrayList<Video> results;
+
+    /**
+     *
+     * @return ArrayList<Video>
+     */
+    public ArrayList<Video> getVideos() { return this.results; }
+
+    /**
+     *
+     * @param results
+     */
+    public void setVideos(ArrayList<Video> results) { this.results = results; }
+
+
+
+    private int reviewPage;
+
+    public int getReviewPage() { return this.reviewPage; }
+
+    public void setReviewPage(int reviewPage) { this.reviewPage = reviewPage; }
+
+    private ArrayList<Review> reviews;
+
+    public ArrayList<Review> getReviews() { return this.reviews; }
+
+    public void setReviews(ArrayList<Review> results) { this.reviews = results; }
+
+    private int total_reviews;
+
+    public int getTotalReviews() { return this.total_reviews; }
+
+    public void setTotalPages(int total_reviews) { this.total_reviews = total_reviews;}
+
     @Override
     public boolean equals(Object object)
     {
@@ -321,10 +355,17 @@ public class Movie implements Serializable {
 
         if (object != null && object instanceof Movie)
         {
-            sameSame = this.id == ((Movie) object).id;
+            Movie v = ((Movie) object);
+
+            sameSame = this.getId() == v.getId();
         }
 
         return sameSame;
     }
 
+    @Override
+    public int hashCode() {
+        return this.id;
+    }
 }
+

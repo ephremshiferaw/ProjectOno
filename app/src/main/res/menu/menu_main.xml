@@ -18,6 +18,10 @@
                 android:id="@+id/menuSortRating"
                 android:title="Sort by ratings"
               />
+            <item
+                android:id="@+id/favorites"
+                android:title="Show Favorites"
+                />
         </menu>
     </item>
 </menu>
